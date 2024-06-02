@@ -1,0 +1,267 @@
+/* Import Montserrat font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+:root {
+    --bg-body-dark: #202124;
+    --bg-body-light: #fff;
+    --text-body-light: #191919;
+    --text-body-dark: #f8f9fa;
+  }
+
+  
+
+
+/* Dark mode */
+.dark-mode {
+    background-color: #121212; /* Dark background color */
+    color: #fff; /* Text color for dark mode */
+}
+
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+  
+    font-family: 'Montserrat', Arial, sans-serif; /* Apply Montserrat font to the body */
+}
+
+
+.container {
+    flex: 1 0 auto;  /* This will make the container take up all available space and push the footer down */
+    padding: 15px;
+}
+
+.cart-icon {
+    position: relative;
+    width: 24px;
+    height: 24px;
+}
+
+.cart-count-text {
+    margin-left: -1px; /* Move the text 1px to the left */
+}
+
+.cart-count {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    background-color: red;
+    display: inline-block;
+    color: white;
+    
+    border-radius: 50%;
+    padding: 2px; /* Changed to equal horizontal and vertical padding */
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 16px; /* Added width and height to maintain a circular shape */
+    height: 16px;
+
+    
+}
+.bi {
+    vertical-align: -.125em;
+    fill: currentColor;
+  }
+.btn-bd-primary {
+    --bd-violet-bg: #712cf9;
+    --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+    --bs-btn-font-weight: 600;
+    --bs-btn-color: var(--bs-white);
+    --bs-btn-bg: var(--bd-violet-bg);
+    --bs-btn-border-color: var(--bd-violet-bg);
+    --bs-btn-hover-color: var(--bs-white);
+    --bs-btn-hover-bg: #6528e0;
+    --bs-btn-hover-border-color: #6528e0;
+    --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+    --bs-btn-active-color: var(--bs-btn-hover-color);
+    --bs-btn-active-bg: #5a23c8;
+    --bs-btn-active-border-color: #5a23c8;
+  }
+
+footer {
+    flex-shrink: 0;  /* This will prevent the footer from shrinking if there's not enough space */
+    color: #212529;
+    text-align: center;
+    padding: 10px 0;
+    border-top: 1px solid #dee2e6;
+}
+
+.cart-item-text-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-right: 10px;
+  }
+  
+
+.cart-item-text {
+    flex: 1;
+    
+  }
+
+
+
+.cart-item-quantity {
+    flex-shrink: 0;
+    margin-left: 10px;
+  }
+  
+
+/* Navbar styles */
+.navbar {
+    border-bottom: 1px solid #dee2e6;
+}
+/* Transition class for the button */
+.btn-transition {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-transition-active {
+    background-color: white !important;
+    color: blue !important;
+}
+
+
+.card {
+    border: none;
+    border-radius: 0;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover .card-title {
+    color: #007bff; /* Change this to the color you want */
+}
+
+.card img {
+    border-radius: 0;
+}
+
+.card .card-body {
+    padding: 15px;
+    text-align: left;
+}
+
+.bd-mode-toggle {
+    z-index: 1500;
+  }
+
+.card .card-title {
+    display: inline-block; /* Add this line */
+
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    transition: color 0.2s ease; /* Add this line */
+    font-weight: bold; /* Add this line */
+    padding: 0; /* Remove padding */
+    margin: 0; 
+}
+
+.card .card-text {
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.card .btn {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 0;
+}
+
+.card .price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card .discounted-price {
+    font-size: 1rem;
+    text-decoration: line-through;
+    color: #888;
+    margin-right: 5px;
+}
+
+.dropdown-menu {
+    transition: max-height 0.5s, opacity 0.5s;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+/* Adjust padding for the dropdown-item */
+.dropdown-item {
+    padding: 0.5rem 1rem;
+  }
+
+.card .badge-sale {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    border-radius: 3px;
+}
+
+.card .rating {
+    color: #ffdd57;
+    margin-bottom: 10px;
+}
+
+.card .tags {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.card .tag {
+    background-color: #007bff;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 2px 5px;
+    border-radius: 3px;
+    text-transform: uppercase;
+}
+
+/* Custom carousel style */
+.custom-carousel {
+    max-width: 600px; /* Set the maximum width */
+}
+
+
+/* Ensure responsive design */
+@media (max-width: 768px) {
+    .navbar-nav {
+        text-align: center;
+    }
+
+    .navbar-nav .nav-link {
+        display: block;
+        margin: 5px 0;
+    }
+
+    .navbar-nav .dropdown-menu {
+        width: 100%;
+    }
+
+    .custom-carousel {
+        width: 100%;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 10px;
+    }
+}
+

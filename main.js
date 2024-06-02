@@ -1,3 +1,10 @@
+let users = [
+  { username: 'user1', password: 'password1' },
+  { username: 'user2', password: 'password2' }
+];
+
+let loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
 let products = [
   {
     name: "Analog Synth 1",
@@ -13,13 +20,48 @@ let products = [
     images: ["images/analog2-1.webp", "images/analog2-2.webp"],
     soundDemo: "sounds/analog2.mp3",
   },
-
 ];
 
+const userIconSVG = `
+<svg xmlns="http://www.w3.org/2000/svg" width="768" height="768" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"/></svg>
+`;
+
+const userIconHeadphones = `
+<svg xmlns="http://www.w3.org/2000/svg" width="768" height="768" viewBox="0 0 24 24"><path fill="currentColor" d="M11 14c1 0 2.05.16 3.2.44c-.81.87-1.2 1.89-1.2 3.06c0 .89.25 1.73.78 2.5H3v-2c0-1.19.91-2.15 2.74-2.88C7.57 14.38 9.33 14 11 14m0-2c-1.08 0-2-.39-2.82-1.17C7.38 10.05 7 9.11 7 8c0-1.08.38-2 1.18-2.82C9 4.38 9.92 4 11 4c1.11 0 2.05.38 2.83 1.18C14.61 6 15 6.92 15 8c0 1.11-.39 2.05-1.17 2.83S12.11 12 11 12m7.5-2H22v2h-2v5.5a2.5 2.5 0 0 1-2.5 2.5a2.5 2.5 0 0 1-2.5-2.5a2.5 2.5 0 0 1 2.5-2.5c.36 0 .69.07 1 .21z"/></svg>
+`;
+
+
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
 document.addEventListener("DOMContentLoaded", function () {
+  cart = JSON.parse(localStorage.getItem(getCartKey())) || [];
+  updateNavbar();
   updateCartCount();
   renderCartItems();
+
+  document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    let username = document.getElementById('login-username').value;
+    let password = document.getElementById('login-password').value;
+    loginUser(username, password);
+  });
+
+  document.getElementById('forgot-password-link').addEventListener('click', function(event) {
+    event.preventDefault();
+    alert('Password recovery process not implemented.');
+  });
+
+  document.getElementById('logout-button').addEventListener('click', function() {
+    logoutUser();
+    updateNavbar(); // Ensure navbar updates immediately after logout
+  });
+
+  if (loggedInUser) {
+    document.getElementById('loginDropdown').innerText = loggedInUser.username;
+  }
+
+  updateNavbar();
+
 
   let productList = document.getElementById("product-list");
 
@@ -32,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
       setTimeout(function () {
         dropdownMenu.style.maxHeight = dropdownMenu.scrollHeight + "px";
         dropdownMenu.style.opacity = "1";
-      }, 50); // Start the transition after a short delay to ensure that the display property has been applied
+      }, 50);
     });
     dropdown.addEventListener("hide.bs.dropdown", function () {
       let dropdownMenu = this.querySelector(".dropdown-menu");
@@ -43,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   for (let product of products) {
     let col = document.createElement("div");
-    col.className = "col-sm-4";
+    col.className = "col-sm-4"; 
 
     let card = document.createElement("div");
     card.className = "card mb-4";
@@ -102,29 +144,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Add to Cart Button
     let addButton = document.createElement("a");
-    addButton.className = "btn btn-primary";
-    addButton.textContent = "+";
+    addButton.className = "specialbutton"; // Change to specialbutton class
+  
     addButton.href = "#";
     addButton.setAttribute("data-bs-toggle", "popover");
     addButton.setAttribute("data-bs-content", "Item added to cart!");
-    addButton.addEventListener("click", function (event) {
-      event.preventDefault();
-      addToCart(product);
-      addButton.classList.add("btn-transition-active");
-      setTimeout(() => {
-        addButton.classList.remove("btn-transition-active");
-      }, 800);
-      
-      let popover = new bootstrap.Popover(addButton, {
-        trigger: 'manual'
-      });
-      popover.show();
 
-      setTimeout(() => {
-        popover.hide();
-      }, 1000); // Duration of the popover display
-    });// Duration of the transition effect
-    
+    let buttonText = document.createElement("span");
+buttonText.className = "specialbutton__text";
+buttonText.textContent = "Add Item";
+
+let buttonIcon = document.createElement("span");
+buttonIcon.className = "specialbutton__icon";
+buttonIcon.innerHTML = `
+  <svg class="svg" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <line x1="12" x2="12" y1="5" y2="19"></line>
+    <line x1="5" x2="19" y1="12" y2="12"></line>
+  </svg>
+`;
+
+addButton.appendChild(buttonText);
+addButton.appendChild(buttonIcon);
+
+addButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  addToCart(product);
+  addButton.classList.add("btn-transition-active");
+  setTimeout(() => {
+    addButton.classList.remove("btn-transition-active");
+  }, 800);
+
+  let popover = new bootstrap.Popover(addButton, {
+    trigger: 'manual'
+  });
+  popover.show();
+
+  setTimeout(() => {
+    popover.hide();
+  }, 1000);
+});
 
     // Ratings
     let rating = document.createElement("div");
@@ -160,6 +218,54 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+function updateNavbar() {
+  let loginDropdown = document.getElementById('loginDropdown');
+  let loginForm = document.getElementById('login-form');
+  let logoutForm = document.getElementById('logout-form');
+
+  if (loggedInUser) {
+    loginDropdown.innerHTML = `
+      <span class="login-text">${loggedInUser.username}</span>
+      ${userIconHeadphones}`;
+    loginDropdown.classList.add('logged-in');
+    loginForm.style.display = 'none'; // Hide login form
+    logoutForm.style.display = 'block'; // Show logout form
+  } else {
+    loginDropdown.classList.remove('logged-in');
+    loginDropdown.innerHTML = `
+      <span class="login-text">Login</span>
+      ${userIconSVG}`;
+    loginForm.style.display = 'block'; // Show login form
+    logoutForm.style.display = 'none'; // Hide logout form
+  }
+}
+
+
+function getCartKey() {
+  return loggedInUser ? `cart-${loggedInUser.username}` : 'cart';
+}
+
+function loginUser(username, password) {
+  let user = users.find(user => user.username === username && user.password === password);
+  if (user) {
+    loggedInUser = user;
+    localStorage.setItem('loggedInUser', JSON.stringify(user));
+    cart = JSON.parse(localStorage.getItem(getCartKey())) || [];
+    console.log('Login successful');
+    updateNavbar();
+    window.location.reload(); // Reload the page after successful login
+  } else {
+    console.log('Invalid username or password');
+    alert('Invalid username or password');
+  }
+}
+
+function logoutUser() {
+  localStorage.removeItem('loggedInUser');
+  loggedInUser = null;
+  updateNavbar();
+}
+
 function addToCart(product) {
   let existingProduct = cart.find((p) => p.name === product.name);
   if (existingProduct) {
@@ -168,6 +274,7 @@ function addToCart(product) {
     product.quantity = 1;
     cart.push(product);
   }
+  localStorage.setItem(getCartKey(), JSON.stringify(cart));
   localStorage.setItem("cart", JSON.stringify(cart));
   updateCartCount();
   renderCartItems();
@@ -196,7 +303,6 @@ function renderCartItems() {
     let cartItem = document.createElement("li");
     cartItem.className = "dropdown-item d-flex justify-content-between align-items-center";
 
-    // Wrapper for product name and quantity
     let itemInfoWrapper = document.createElement("div");
     itemInfoWrapper.className = "cart-item-text-wrapper";
 
@@ -217,7 +323,7 @@ function renderCartItems() {
     addButton.className = "btn btn-sm btn-primary me-2";
     addButton.textContent = "+";
     addButton.addEventListener("click", function (event) {
-      event.stopPropagation(); // Stop event propagation
+      event.stopPropagation();
       product.quantity += 1;
       localStorage.setItem("cart", JSON.stringify(cart));
       updateCartCount();
@@ -228,7 +334,7 @@ function renderCartItems() {
     removeButton.className = "btn btn-sm btn-danger";
     removeButton.textContent = "-";
     removeButton.addEventListener("click", function (event) {
-      event.stopPropagation(); // Stop event propagation
+      event.stopPropagation();
       product.quantity -= 1;
       if (product.quantity === 0) {
         cart = cart.filter((p) => p.name !== product.name);

@@ -1,9 +1,17 @@
 /* Import Montserrat font from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
+[data-bs-theme=dark]{
+    --bs-body-bg: #212121;
+}
+
+[data-bs-theme=light]{
+    --bs-body-bg: #fff;
+}
+
 :root {
-    --bg-body-dark: #202124;
-    --bg-body-light: #fff;
+    --bg-body-dark: #212121;
+    --bg-body-light: #fff2;
     --text-body-light: #191919;
     --text-body-dark: #f8f9fa;
   }
@@ -13,11 +21,16 @@
 
 /* Dark mode */
 .dark-mode {
-    background-color: #121212; /* Dark background color */
     color: #fff; /* Text color for dark mode */
 }
 
+.navbar-nav .nav-item.logged-in .dropdown-toggle::after {
+    display: none;
+}
 
+.navbar-nav .nav-item.logged-in .dropdown-menu {
+    display: none;
+}
 
 body {
     display: flex;
@@ -140,6 +153,7 @@ footer {
     color: #007bff; /* Change this to the color you want */
 }
 
+
 .card img {
     border-radius: 0;
 }
@@ -163,6 +177,97 @@ footer {
     padding: 0; /* Remove padding */
     margin: 0; 
 }
+.nav-link.dropdown-toggle {
+    justify-content: space-between; /* Aligns items on the line (not stacked vertically) */
+    align-items: center; /* Centers items vertically */
+}
+
+.nav-link.dropdown-toggle::after {
+    display: none;
+}
+
+.specialbutton {
+    --main-focus: #2d8cf0;
+    --font-color: #323232;
+    --bg-color-sub: #dedede;
+    --bg-color: #eee;
+    --main-color: #323232;
+    position: relative;
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  
+    background-color: var(--bg-color);
+    border-radius: 10px;
+    overflow: hidden;
+    text-decoration: none; /* Ensure no underline for the entire button */
+
+  }
+  
+  .specialbutton, .specialbutton__icon, .specialbutton__text {
+    transition: all 0.3s;
+  }
+  
+  .specialbutton .specialbutton__text {
+    transform: translateX(22px);
+    color: var(--font-color);
+    font-weight: 600;
+  }
+  
+  .specialbutton .specialbutton__icon {
+    position: absolute;
+    transform: translateX(109px);
+    height: 100%;
+    width: 39px;
+    background-color: var(--bg-color-sub);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .specialbutton .svg {
+    width: 20px;
+    fill: var(--main-color);
+  }
+  
+  .specialbutton:hover {
+    background: var(--bg-color);
+  }
+  
+  .specialbutton:hover .specialbutton__text {
+    color: transparent;
+  }
+  
+  .specialbutton:hover .specialbutton__icon {
+    width: 148px;
+    transform: translateX(0);
+  }
+  
+  .specialbutton:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0px 0px var(--main-color);
+  }
+  
+
+/* Add these styles to styles.css */
+/* Add these styles to styles.css */
+.login-dropdown {
+    display: flex;
+    align-items: center;
+  }
+  
+  .login-dropdown .login-text {
+    margin-right: 8px; /* Adjust the spacing as needed */
+  }
+  
+  .login-dropdown svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+  
 
 .card .card-text {
     font-size: 1rem;

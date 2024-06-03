@@ -29,6 +29,7 @@
             body.classList.add('light-mode'); // Add light-mode class
             body.classList.remove('dark-mode'); // Remove dark-mode class
         }
+        updateLogoColor();
     }
     
   
@@ -85,4 +86,27 @@
           })
         })
     })
+
+    function updateLogoColor() {
+      const storedTheme = localStorage.getItem('theme');
+      const auraLogo = document.getElementById('aura-logo');
+      
+      if (storedTheme === 'dark') {
+        auraLogo.style.fill = 'white'; // Change the fill color to white for dark theme
+      } else if (storedTheme === 'light') {
+        auraLogo.style.fill = 'black'; // Change the fill color to black for light theme
+      } else {
+        auraLogo.style.fill = 'initial'; // Revert to initial color for other themes
+      }
+    }
+    
+    // Call the function to update the logo color based on the current theme
+    updateLogoColor();
+    
+    // Optionally, if the theme can change dynamically, you might want to add an event listener
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'theme') {
+        updateLogoColor();
+      }
+    });
   })()

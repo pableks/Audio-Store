@@ -76,8 +76,8 @@ body {
 
 .cart-count {
     position: absolute;
-    bottom: 2px;
-    left: 2px;
+    bottom: 35px;
+    left: 38px;
     background-color: red;
     display: inline-block;
     color: white;
@@ -120,7 +120,7 @@ footer {
     color: #212529;
     text-align: center;
     padding: 10px 0;
-    border-top: 1px solid #dee2e6;
+    border-top: 1px solid #363636;
 }
 
 .cart-item-text-wrapper {
@@ -142,13 +142,17 @@ footer {
 .cart-item-quantity {
     flex-shrink: 0;
     margin-left: 10px;
+   
   }
   
 
 /* Navbar styles */
 .navbar {
-    border-bottom: 1px solid #dee2e6;
+   
+    border-bottom: 1px solid #363636;
 }
+
+
 /* Transition class for the button */
 .btn-transition {
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -369,8 +373,17 @@ footer {
 }
 
 
+
+.navbar-brand img {
+    width: 80px;
+  }
+
+  .svg-auralogo {
+    padding-left: 200px;
+    padding-right: 200px;
+}
 /* Ensure responsive design */
-@media (max-width: 991px) {
+@media (max-width: 768px) {
 
     .profile-button{
         margin-bottom: 0px;
@@ -409,12 +422,38 @@ footer {
         width: 100%;
         text-align: center;
     }
+    
+    .navbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .navbar .container-fluid {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
+      
+      .navbar-header {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
     .navbar-nav {
-        text-align: center;
+        flex: 1;
+        display: flex;
+        justify-content: flex-start;
+        margin: 0;
     }
 
+    #aura-logo {
+        max-height: 50px; /* Adjust based on your logo size */
+      }
     .navbar-nav .nav-link {
         display: block;
+       
         margin: 5px 0;
     }
 
@@ -423,13 +462,22 @@ footer {
         margin: auto;
     }
 
-    
+    .navbar-brand img {
+        width: 100px;
+      }
+      .navbar-brand {
+        margin-right: 0;
+        padding: 0 1em;
+      }
 
+      
+   
     .custom-carousel {
         width: 100%;
         margin: 0 auto;
     }
 }
+
 
 @media (max-width: 576px) {
 
@@ -444,6 +492,7 @@ footer {
         text-align: center; /* Ensure text is centered */
         width: 100%; /* Make the form take the full width of the dropdown */
     }
+
 
     .navbar-nav .dropdown-menu {
         width: 60%;

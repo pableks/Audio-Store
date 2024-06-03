@@ -54,17 +54,35 @@ if (
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 document.addEventListener("DOMContentLoaded", function () {
-  let users = JSON.parse(localStorage.getItem("users")) || [];
+  const storedTheme = localStorage.getItem('theme');
 
-  var register_button = document.getElementById("register-btn");
-  if (register_button) {
-    // Check if the button exists before adding the event listener
-    register_button.addEventListener("click", function (event) {
+  
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  
+
+  var registerForm = document.getElementById("register-form");
+  if (registerForm) {
+    registerForm.addEventListener("submit", function (event) {
       event.preventDefault();
 
-      const register_name_value = register_name.value;
+      // Check if the form is valid
+      if (!registerForm.checkValidity()) {
+        // If the form is invalid, show the validation errors and exit
+        registerForm.classList.add("was-validated");
+        return;
+      }
+
+      const register_name_value = register_name.value.trim();
       const register_email_value = register_email.value;
       const register_password_value = register_password.value;
+
+      function isPasswordValid(password) {
+        // Define the regular expression pattern
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      
+        // Test the password against the pattern
+        return passwordRegex.test(password);
+      }
 
       // Check if the input fields are not empty
       if (
@@ -75,6 +93,27 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Data not valid ❌");
         return;
       }
+
+      const passwordValidationError = document.querySelector(".password-validation-error");
+      
+
+
+      
+
+      if (!isPasswordValid(register_password_value)) {
+        passwordValidationError.textContent =
+          "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.";
+        passwordValidationError.style.display = "block";
+
+        
+        return;
+      } else {
+        passwordValidationError.style.display = "none";
+
+      }
+
+      // Retrieve the users array from localStorage
+      let users = JSON.parse(localStorage.getItem("users")) || [];
 
       // Check if the email is already registered
       const userExists = users.find(
@@ -97,9 +136,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Store the updated users array in localStorage
       localStorage.setItem("users", JSON.stringify(users));
+      let storedTheme = localStorage.getItem('theme'); // Retrieve theme from localStorage
 
-      alert("Registration successful ✅");
-      window.location = "index.html";
+      Swal.fire({
+        icon: 'success',
+        title: 'Registration successful ✅',
+        showConfirmButton: false,
+        timer: 1500,
+        background: storedTheme === 'dark' ? '#212121' : '#fff', // Set background color based on theme
+        color: storedTheme === 'dark' ? '#fff' : '#000' // Set text color based on theme
+    }).then(() => {
+        window.location = "index.html";
+    });
+
+      
     });
   }
 
@@ -319,6 +369,8 @@ document.addEventListener("DOMContentLoaded", function () {
     productList.appendChild(col);
   }
 });
+
+
 
 function updateNavbar() {
   let loginDropdown = document.getElementById("loginDropdown");

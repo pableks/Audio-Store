@@ -1,9 +1,9 @@
 let users = [
-  { username: 'user1', password: 'password1' },
-  { username: 'user2', password: 'password2' }
+  { username: "user1", password: "password1" },
+  { username: "user2", password: "password2" },
 ];
 
-let loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
 let products = [
   {
@@ -30,38 +30,140 @@ const userIconHeadphones = `
 <svg xmlns="http://www.w3.org/2000/svg" width="768" height="768" viewBox="0 0 24 24"><path fill="currentColor" d="M11 14c1 0 2.05.16 3.2.44c-.81.87-1.2 1.89-1.2 3.06c0 .89.25 1.73.78 2.5H3v-2c0-1.19.91-2.15 2.74-2.88C7.57 14.38 9.33 14 11 14m0-2c-1.08 0-2-.39-2.82-1.17C7.38 10.05 7 9.11 7 8c0-1.08.38-2 1.18-2.82C9 4.38 9.92 4 11 4c1.11 0 2.05.38 2.83 1.18C14.61 6 15 6.92 15 8c0 1.11-.39 2.05-1.17 2.83S12.11 12 11 12m7.5-2H22v2h-2v5.5a2.5 2.5 0 0 1-2.5 2.5a2.5 2.5 0 0 1-2.5-2.5a2.5 2.5 0 0 1 2.5-2.5c.36 0 .69.07 1 .21z"/></svg>
 `;
 
+const register_name = document.getElementById("name");
+const register_email = document.getElementById("email");
+const register_password = document.getElementById("password");
+const register_button = document.getElementById("register-btn");
+
+const cek_reg_name = localStorage.getItem("register_name");
+const cek_reg_email = localStorage.getItem("register_email");
+const cek_reg_password = localStorage.getItem("register_password");
+const cek_log_email = localStorage.getItem("login_email");
+const cek_log_password = localStorage.getItem("login_password");
+
+if (
+  (cek_reg_name,
+  cek_reg_email,
+  cek_reg_password,
+  cek_log_email,
+  cek_log_password != null)
+) {
+  window.location = "index.html";
+}
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 document.addEventListener("DOMContentLoaded", function () {
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+
+  var register_button = document.getElementById("register-btn");
+  if (register_button) {
+    // Check if the button exists before adding the event listener
+    register_button.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      const register_name_value = register_name.value;
+      const register_email_value = register_email.value;
+      const register_password_value = register_password.value;
+
+      // Check if the input fields are not empty
+      if (
+        !register_name_value ||
+        !register_email_value ||
+        !register_password_value
+      ) {
+        alert("Data not valid ❌");
+        return;
+      }
+
+      // Check if the email is already registered
+      const userExists = users.find(
+        (user) => user.email === register_email_value
+      );
+      if (userExists) {
+        alert("User with this email already exists ❌");
+        return;
+      }
+
+      // Create a new user object
+      const newUser = {
+        username: register_name_value,
+        password: register_password_value,
+        email: register_email_value,
+      };
+
+      // Add the new user to the users array
+      users.push(newUser);
+
+      // Store the updated users array in localStorage
+      localStorage.setItem("users", JSON.stringify(users));
+
+      alert("Registration successful ✅");
+      window.location = "index.html";
+    });
+  }
+
   cart = JSON.parse(localStorage.getItem(getCartKey())) || [];
   updateNavbar();
   updateCartCount();
   renderCartItems();
 
-  document.getElementById('login-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    let username = document.getElementById('login-username').value;
-    let password = document.getElementById('login-password').value;
-    loginUser(username, password);
-  });
+  document
+    .getElementById("login-form")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+      let username = document.getElementById("login-username").value;
+      let password = document.getElementById("login-password").value;
+      loginUser(username, password);
+    });
 
-  document.getElementById('forgot-password-link').addEventListener('click', function(event) {
-    event.preventDefault();
-    alert('Password recovery process not implemented.');
-  });
+  document
+    .getElementById("forgot-password-link")
+    .addEventListener("click", function (event) {
+      event.preventDefault();
+      alert("Password recovery process not implemented.");
+    });
 
-  document.getElementById('logout-button').addEventListener('click', function() {
-    logoutUser();
-    updateNavbar(); // Ensure navbar updates immediately after logout
-  });
+  document
+    .getElementById("logout-button")
+    .addEventListener("click", function () {
+      logoutUser();
+      updateNavbar(); // Ensure navbar updates immediately after logout
+    });
 
   if (loggedInUser) {
-    document.getElementById('loginDropdown').innerText = loggedInUser.username;
+    document.getElementById("loginDropdown").innerText = loggedInUser.username;
   }
 
-  updateNavbar();
+  /*
+  var registerForm = document.getElementById('register-form');
 
+  if (registerForm) {
+    registerForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Get form data
+      var fullname = document.getElementById('register-fullname').value;
+      var username = document.getElementById('register-username').value;
+      var password = document.getElementById('register-password').value;
+      var address = document.getElementById('register-address').value;
+      var email = document.getElementById('register-email').value;
+      var securityQuestion = document.getElementById('register-security-question').value;
+      var securityAnswer = document.getElementById('register-security-answer').value;
+
+      // Validate form data
+      if (validateRegistration(fullname, username, password, address, email)) {
+        // Create new user object
+        var newUser = { fullname: fullname, username: username, password: password, address: address, email: email, securityQuestion: securityQuestion, securityAnswer: securityAnswer };
+
+        // Register new user
+        registerUser(newUser);
+      }
+    });
+  }
+*/
+
+  updateNavbar();
 
   let productList = document.getElementById("product-list");
 
@@ -85,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   for (let product of products) {
     let col = document.createElement("div");
-    col.className = "col-sm-4"; 
+    col.className = "col-sm-4";
 
     let card = document.createElement("div");
     card.className = "card mb-4";
@@ -145,44 +247,44 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add to Cart Button
     let addButton = document.createElement("a");
     addButton.className = "specialbutton"; // Change to specialbutton class
-  
+
     addButton.href = "#";
     addButton.setAttribute("data-bs-toggle", "popover");
     addButton.setAttribute("data-bs-content", "Item added to cart!");
 
     let buttonText = document.createElement("span");
-buttonText.className = "specialbutton__text";
-buttonText.textContent = "Add Item";
+    buttonText.className = "specialbutton__text";
+    buttonText.textContent = "Add Item";
 
-let buttonIcon = document.createElement("span");
-buttonIcon.className = "specialbutton__icon";
-buttonIcon.innerHTML = `
+    let buttonIcon = document.createElement("span");
+    buttonIcon.className = "specialbutton__icon";
+    buttonIcon.innerHTML = `
   <svg class="svg" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
     <line x1="12" x2="12" y1="5" y2="19"></line>
     <line x1="5" x2="19" y1="12" y2="12"></line>
   </svg>
 `;
 
-addButton.appendChild(buttonText);
-addButton.appendChild(buttonIcon);
+    addButton.appendChild(buttonText);
+    addButton.appendChild(buttonIcon);
 
-addButton.addEventListener("click", function (event) {
-  event.preventDefault();
-  addToCart(product);
-  addButton.classList.add("btn-transition-active");
-  setTimeout(() => {
-    addButton.classList.remove("btn-transition-active");
-  }, 800);
+    addButton.addEventListener("click", function (event) {
+      event.preventDefault();
+      addToCart(product);
+      addButton.classList.add("btn-transition-active");
+      setTimeout(() => {
+        addButton.classList.remove("btn-transition-active");
+      }, 800);
 
-  let popover = new bootstrap.Popover(addButton, {
-    trigger: 'manual'
-  });
-  popover.show();
+      let popover = new bootstrap.Popover(addButton, {
+        trigger: "manual",
+      });
+      popover.show();
 
-  setTimeout(() => {
-    popover.hide();
-  }, 1000);
-});
+      setTimeout(() => {
+        popover.hide();
+      }, 1000);
+    });
 
     // Ratings
     let rating = document.createElement("div");
@@ -219,49 +321,63 @@ addButton.addEventListener("click", function (event) {
 });
 
 function updateNavbar() {
-  let loginDropdown = document.getElementById('loginDropdown');
-  let loginForm = document.getElementById('login-form');
-  let logoutForm = document.getElementById('logout-form');
+  let loginDropdown = document.getElementById("loginDropdown");
+  let loginForm = document.getElementById("login-form");
+  let logoutForm = document.getElementById("logout-form");
 
   if (loggedInUser) {
     loginDropdown.innerHTML = `
       <span class="login-text">${loggedInUser.username}</span>
       ${userIconHeadphones}`;
-    loginDropdown.classList.add('logged-in');
-    loginForm.style.display = 'none'; // Hide login form
-    logoutForm.style.display = 'block'; // Show logout form
+    loginDropdown.classList.add("logged-in");
+    loginForm.style.display = "none"; // Hide login form
+    logoutForm.style.display = "block"; // Show logout form
   } else {
-    loginDropdown.classList.remove('logged-in');
+    loginDropdown.classList.remove("logged-in");
     loginDropdown.innerHTML = `
       <span class="login-text">Login</span>
       ${userIconSVG}`;
-    loginForm.style.display = 'block'; // Show login form
-    logoutForm.style.display = 'none'; // Hide logout form
+    loginForm.style.display = "block"; // Show login form
+    logoutForm.style.display = "none"; // Hide logout form
   }
 }
 
-
 function getCartKey() {
-  return loggedInUser ? `cart-${loggedInUser.username}` : 'cart';
+  return loggedInUser ? `cart-${loggedInUser.username}` : "cart";
 }
 
 function loginUser(username, password) {
-  let user = users.find(user => user.username === username && user.password === password);
+  // Retrieve the users array from localStorage
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+
+  // Find the user in the users array
+  let user = users.find(
+    (user) => user.username === username && user.password === password
+  );
+
+  // Check if the user exists and the password is correct
   if (user) {
+    // Store the logged-in user in localStorage
     loggedInUser = user;
-    localStorage.setItem('loggedInUser', JSON.stringify(user));
+    localStorage.setItem("loggedInUser", JSON.stringify(user));
+
+    // Retrieve the user's cart from localStorage or initialize it if it doesn't exist
     cart = JSON.parse(localStorage.getItem(getCartKey())) || [];
-    console.log('Login successful');
+
+    console.log("Login successful");
     updateNavbar();
-    window.location.reload(); // Reload the page after successful login
+
+    // Reload the page after successful login
+    window.location.reload();
   } else {
-    console.log('Invalid username or password');
-    alert('Invalid username or password');
+    // If the username or password is incorrect, display an error message
+    console.log("Invalid username or password");
+    alert("Invalid username or password");
   }
 }
 
 function logoutUser() {
-  localStorage.removeItem('loggedInUser');
+  localStorage.removeItem("loggedInUser");
   loggedInUser = null;
   updateNavbar();
 }
@@ -301,7 +417,8 @@ function renderCartItems() {
 
   for (let product of cart) {
     let cartItem = document.createElement("li");
-    cartItem.className = "dropdown-item d-flex justify-content-between align-items-center";
+    cartItem.className =
+      "dropdown-item d-flex justify-content-between align-items-center";
 
     let itemInfoWrapper = document.createElement("div");
     itemInfoWrapper.className = "cart-item-text-wrapper";

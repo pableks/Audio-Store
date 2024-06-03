@@ -28,6 +28,23 @@
     display: none;
 }
 
+.needs-validation {
+
+   
+   
+}
+
+.droplogin {
+
+
+    width: 250px; /* Set the width of the dropdown menu */
+ 
+
+   
+    overflow: auto;
+}
+
+
 .navbar-nav .nav-item.logged-in .dropdown-menu {
     display: none;
 }
@@ -186,8 +203,11 @@ footer {
     display: none;
 }
 
+
+
+
 .profile-button{
-    margin-bottom: 12px;
+   
 }
 
 
@@ -301,7 +321,7 @@ footer {
 
 .dropdown-menu {
     transition: max-height 0.5s, opacity 0.5s;
-    max-height: 0;
+    max-height:0;
     opacity: 0;
     overflow: hidden;
 }
@@ -350,7 +370,45 @@ footer {
 
 
 /* Ensure responsive design */
-@media (max-width: 768px) {
+@media (max-width: 991px) {
+
+    .profile-button{
+        margin-bottom: 0px;
+    }
+
+    .profile-logout {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center elements horizontally */
+        text-align: center; /* Ensure text is centered */
+        width: 100%; /* Make the form take the full width of the dropdown */
+    }
+    .cart-icon {
+        transform: none;
+        position: relative;
+        width: 24px;
+        height: 24px;
+        margin-left: 25px; /* Adjust this value as needed */
+
+    }
+    
+    .cart-count {
+        position: static;
+
+        transform: translate(-240%, 50%);
+        margin-left: 5px;
+        width: 14px;
+        height: 14px;
+        font-size: 10px;
+    }
+
+    .navbar-nav .nav-item .dropdown-toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        text-align: center;
+    }
     .navbar-nav {
         text-align: center;
     }
@@ -361,8 +419,11 @@ footer {
     }
 
     .navbar-nav .dropdown-menu {
-        width: 100%;
+        width: 40%;
+        margin: auto;
     }
+
+    
 
     .custom-carousel {
         width: 100%;
@@ -371,6 +432,25 @@ footer {
 }
 
 @media (max-width: 576px) {
+
+    .profile-button{
+        margin-bottom: 0px;
+    }
+
+    .profile-logout {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center elements horizontally */
+        text-align: center; /* Ensure text is centered */
+        width: 100%; /* Make the form take the full width of the dropdown */
+    }
+
+    .navbar-nav .dropdown-menu {
+        width: 60%;
+        margin: auto;
+    }
+
+
     .container {
         padding: 10px;
     }

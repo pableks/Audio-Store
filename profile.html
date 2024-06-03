@@ -14,7 +14,14 @@
                 <h1>User Profile</h1>
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title" id="profile-username">Username: </h5>
+                        <div id="username-section">
+                            <h5 class="card-title d-inline" id="profile-username">Username: </h5>
+                            <button class="btn btn-primary btn-sm d-inline ms-2" onclick="editUsername()">Edit</button>
+                        </div>
+                        <div id="username-edit" style="display: none;">
+                            <input type="text" id="username-input" class="form-control d-inline w-auto" />
+                            <button class="btn btn-primary btn-sm d-inline ms-2" onclick="saveUsername()">Save</button>
+                        </div>
                         <p class="card-text" id="profile-email">Email: </p>
                         <button class="btn btn-primary" onclick="logoutUser()">Logout</button>
                     </div>
@@ -22,7 +29,7 @@
             </div>
         </div>
     </div>
-
+    <script src="theme.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -30,11 +37,44 @@
             if (loggedInUser) {
                 document.getElementById("profile-username").textContent = `Username: ${loggedInUser.username}`;
                 document.getElementById("profile-email").textContent = `Email: ${loggedInUser.email}`;
+                document.getElementById("username-input").value = loggedInUser.username;
             } else {
                 alert("No user is logged in");
                 window.location.href = "index.html";
             }
         });
+
+        function editUsername() {
+            document.getElementById("username-section").style.display = "none";
+            document.getElementById("username-edit").style.display = "block";
+        }
+
+        function saveUsername() {
+            const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+            const newUsername = document.getElementById("username-input").value;
+
+            // Update loggedInUser object
+            loggedInUser.username = newUsername;
+            localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+
+            // Update users array
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            const loggedInUserEmail = loggedInUser.email;
+            for (let i = 0; i < users.length; i++) {
+                if (users[i].email === loggedInUserEmail) {
+                    users[i].username = newUsername;
+                    break;
+                }
+            }
+            localStorage.setItem("users", JSON.stringify(users));
+
+            // Update the displayed username
+            document.getElementById("profile-username").textContent = `Username: ${newUsername}`;
+
+            // Switch back to display mode
+            document.getElementById("username-section").style.display = "block";
+            document.getElementById("username-edit").style.display = "none";
+        }
 
         function logoutUser() {
             localStorage.removeItem("loggedInUser");

@@ -117,10 +117,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Check if the email is already registered
       const userExists = users.find(
-        (user) => user.email === register_email_value
+        (user) => user.email === register_email_value || user.username === register_name_value
       );
+      
       if (userExists) {
-        alert("User with this email already exists ❌");
+        if (userExists.email === register_email_value) {
+          alert("User with this email already exists ❌");
+        } else if (userExists.username === register_name_value) {
+          alert("User with this username already exists ❌");
+        }
         return;
       }
 
@@ -136,6 +141,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Store the updated users array in localStorage
       localStorage.setItem("users", JSON.stringify(users));
+      localStorage.setItem("loggedInUser", JSON.stringify(newUser));
+
       let storedTheme = localStorage.getItem('theme'); // Retrieve theme from localStorage
 
       Swal.fire({
@@ -146,9 +153,13 @@ document.addEventListener("DOMContentLoaded", function () {
         background: storedTheme === 'dark' ? '#212121' : '#fff', // Set background color based on theme
         color: storedTheme === 'dark' ? '#fff' : '#000' // Set text color based on theme
     }).then(() => {
-        window.location = "index.html";
-    });
+      window.location = "index.html";
 
+      loginUser(newUser.username, newUser.password);
+
+        
+    });
+ 
       
     });
   }
@@ -162,6 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("login-form")
     .addEventListener("submit", function (event) {
       event.preventDefault();
+      
       let username = document.getElementById("login-username").value;
       let password = document.getElementById("login-password").value;
       loginUser(username, password);
@@ -179,12 +191,16 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("click", function () {
       logoutUser();
       updateNavbar(); // Ensure navbar updates immediately after logout
+      var dropdownEvent = new Event('show.bs.dropdown');
+        this.closest('.dropdown').dispatchEvent(dropdownEvent);
     });
 
   if (loggedInUser) {
     document.getElementById("loginDropdown").innerText = loggedInUser.username;
   }
 
+
+  
   /*
   var registerForm = document.getElementById('register-form');
 
@@ -371,7 +387,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-
 function updateNavbar() {
   let loginDropdown = document.getElementById("loginDropdown");
   let loginForm = document.getElementById("login-form");
@@ -386,6 +401,7 @@ function updateNavbar() {
     logoutForm.style.display = "block"; // Show logout form
   } else {
     loginDropdown.classList.remove("logged-in");
+    
     loginDropdown.innerHTML = `
       <span class="login-text">Login</span>
       ${userIconSVG}`;
@@ -393,6 +409,7 @@ function updateNavbar() {
     logoutForm.style.display = "none"; // Hide logout form
   }
 }
+
 
 function getCartKey() {
   return loggedInUser ? `cart-${loggedInUser.username}` : "cart";
@@ -418,9 +435,12 @@ function loginUser(username, password) {
 
     console.log("Login successful");
     updateNavbar();
-
+    
+    var dropdownEvent = new Event('show.bs.dropdown');
+    this.closest('.dropdown').dispatchEvent(dropdownEvent);
     // Reload the page after successful login
     window.location.reload();
+
   } else {
     // If the username or password is incorrect, display an error message
     console.log("Invalid username or password");
@@ -432,6 +452,8 @@ function logoutUser() {
   localStorage.removeItem("loggedInUser");
   loggedInUser = null;
   updateNavbar();
+
+
 }
 
 function addToCart(product) {

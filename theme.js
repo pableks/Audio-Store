@@ -30,6 +30,7 @@
             body.classList.remove('dark-mode'); // Remove dark-mode class
         }
         updateLogoColor();
+       
     }
     
   
@@ -90,13 +91,17 @@
     function updateLogoColor() {
       const storedTheme = localStorage.getItem('theme');
       const auraLogo = document.getElementById('aura-logo');
+      const auraLogoH = document.getElementById('aura-logo-h');
       
       if (storedTheme === 'dark') {
-        auraLogo.style.fill = 'white'; // Change the fill color to white for dark theme
+        if (auraLogo) auraLogo.style.fill = 'white'; // Change the fill color to white for dark theme
+        if (auraLogoH) auraLogoH.style.fill = 'white'; // Change the fill color to white for dark theme
       } else if (storedTheme === 'light') {
-        auraLogo.style.fill = 'black'; // Change the fill color to black for light theme
+        if (auraLogo) auraLogo.style.fill = 'black'; // Change the fill color to black for light theme
+        if (auraLogoH) auraLogoH.style.fill = 'black'; // Change the fill color to black for light theme
       } else {
-        auraLogo.style.fill = 'initial'; // Revert to initial color for other themes
+        if (auraLogo) auraLogo.style.fill = 'initial'; // Revert to initial color for other themes
+        if (auraLogoH) auraLogoH.style.fill = 'initial'; // Revert to initial color for other themes
       }
     }
     

@@ -34,26 +34,14 @@ const register_name = document.getElementById("name");
 const register_email = document.getElementById("email");
 const register_password = document.getElementById("password");
 const register_button = document.getElementById("register-btn");
-
-const cek_reg_name = localStorage.getItem("register_name");
-const cek_reg_email = localStorage.getItem("register_email");
-const cek_reg_password = localStorage.getItem("register_password");
-const cek_log_email = localStorage.getItem("login_email");
-const cek_log_password = localStorage.getItem("login_password");
-
-if (
-  (cek_reg_name,
-  cek_reg_email,
-  cek_reg_password,
-  cek_log_email,
-  cek_log_password != null)
-) {
-  window.location = "index.html";
-}
+const register_security_question = document.getElementById("security-question");
+const register_security_answer = document.getElementById("security-answer");
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 document.addEventListener("DOMContentLoaded", function () {
+
+  
   const storedTheme = localStorage.getItem('theme');
 
   
@@ -75,6 +63,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const register_name_value = register_name.value.trim();
       const register_email_value = register_email.value;
       const register_password_value = register_password.value;
+      const register_question_value = register_security_question.value;
+      const register_answer_value = register_security_answer.value;
 
       function isPasswordValid(password) {
         // Define the regular expression pattern
@@ -88,7 +78,10 @@ document.addEventListener("DOMContentLoaded", function () {
       if (
         !register_name_value ||
         !register_email_value ||
-        !register_password_value
+        !register_password_value ||
+        !register_question_value ||
+        !register_answer_value
+        
       ) {
         alert("Data not valid ❌");
         return;
@@ -134,6 +127,8 @@ document.addEventListener("DOMContentLoaded", function () {
         username: register_name_value,
         password: register_password_value,
         email: register_email_value,
+        securityQuestion: register_question_value,
+        securityAnswer: register_answer_value,
       };
 
       // Add the new user to the users array
@@ -179,12 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
       loginUser(username, password);
     });
 
-  document
-    .getElementById("forgot-password-link")
-    .addEventListener("click", function (event) {
-      event.preventDefault();
-      alert("Password recovery process not implemented.");
-    });
+
 
   document
     .getElementById("logout-button")

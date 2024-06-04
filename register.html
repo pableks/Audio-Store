@@ -37,9 +37,24 @@
                                 <div class="invalid-feedback">
                                   Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.
                                 </div>
+                                <div class="mb-3 mt-2">
+                                    <label for="security-question" class="form-label">Security Question</label>
+                                    <input id="security-question" type="text" class="form-control" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a security question.
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="security-answer" class="form-label">Security Answer</label>
+                                    <input id="security-answer" type="text" class="form-control" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a security answer.
+                                    </div>
+                                </div>    
                               </div>
                                 <div class="invalid-feedback password-validation-error" style="display: none;"></div>
                               </div>
+                              
                             <div class="text-center">
                                 <button id="register-btn" type="submit" class="btn btn-primary">Register</button>
                             </div>

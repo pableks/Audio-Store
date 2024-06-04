@@ -378,12 +378,40 @@ footer {
     width: 80px;
   }
 
-  .svg-auralogo {
-    padding-left: 200px;
-    padding-right: 200px;
+.svg-auralogo-h {
+    width: 80px;
+
 }
+
+
 /* Ensure responsive design */
 @media (max-width: 768px) {
+
+    .mt-5 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        text-align: center;
+        margin-top: 0 !important;
+      }
+      .pt-5 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        text-align: center;
+        padding-top: 0 !important;
+      }
+
+    .navbar-brand img {
+        width: 50px;
+      }
+    .navbar-brand {
+
+        margin-right: 0;
+        padding: 0 1em;
+      }
 
     .profile-button{
         margin-bottom: 0px;
@@ -424,6 +452,8 @@ footer {
     }
     
     .navbar {
+        padding-top: 0px;
+        
         display: flex;
         justify-content: center;
         align-items: center;
@@ -449,12 +479,12 @@ footer {
     }
 
     #aura-logo {
-        max-height: 50px; /* Adjust based on your logo size */
+        max-height: 40px; /* Adjust based on your logo size */
       }
     .navbar-nav .nav-link {
         display: block;
        
-        margin: 5px 0;
+       
     }
 
     .navbar-nav .dropdown-menu {
